@@ -10,7 +10,15 @@
 </div> -->
 
     <div class="product_container">
-        
+        <div v-for="p, index in data">
+            <productCardManagement 
+            :productIndex="index"
+            :productTitle="p.title"
+            :productPhotoUrl="p.photoUrl"
+            :productPrice = "p.price"
+            :productDescription="p.description"
+            />
+        </div>
     </div>
 
 

@@ -1,4 +1,5 @@
 <template>
+<div class="product_background">
   <div class="product_container">
     <div v-for="p, index in data">
       <productCard 
@@ -10,6 +11,7 @@
       />
     </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -35,20 +37,6 @@ export default {
   },
   // Vue要使用的方法
   methods: {
-
-    // toggleBuyStatus(index) {
-    //   this.isBuy[index] = true;
-    // },
-    // resetBuyStatus(index) {
-    //   this.isBuy[index] = false;
-    // },
-
-    // onEdit(index) {
-    //   this.showToast('已購買 ' + this.data[index].title);
-    // },
-    // onDelete(index) {
-    //   this.showToast('onDelete: ' + this.data[index].title);
-    // },
 
   },
   mounted() {
@@ -86,20 +74,25 @@ export default {
 
 <style scoped>
 @import 'https://fonts.googleapis.com/css?family=Open+Sans|Quicksand:400,700';
-/* html,
-body {
+
+.product_background {
+  position:absolute;
+  top:0;
+  left:0;
+  height:100%;
+  width:100%;
   background: #e3e3d8;
   font-family: 'Quicksand', sans-serif;
-  
-} */
+} 
 
-/* ------------ */
-/*   product    */
-/* ------------ */
 .product_container {
-
+  position:fixed;
+  height:100%;
+  width:100%;
   display: flex;
   flex-wrap: wrap;
+  overflow: scroll;
+
   justify-content: flex-start;
   z-index: 0;
   background: #e3e3d8;

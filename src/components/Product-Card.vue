@@ -117,16 +117,7 @@ export default {
 <style scoped>
 
 @import 'https://fonts.googleapis.com/css?family=Open+Sans|Quicksand:400,700';
-/* html,
-body {
-  background: #e3e3d8;
-  font-family: 'Quicksand', sans-serif;
-  
-} */
 
-/* ------------ */
-/*   product    */
-/* ------------ */
 .wrapper {
   width: 300px;
   height: 500px;
