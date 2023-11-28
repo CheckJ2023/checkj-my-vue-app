@@ -2,7 +2,11 @@
 
 
 <template>
+ 
+  <nightbackground class="login_background">
+
   <div class="container">
+    
     <section> 
    <div class="signin"> 
 
@@ -55,10 +59,12 @@
   </section> <!-- partial --> 
   
 </div>
+</nightbackground>
 </template>
 
 <script>
 import axios from 'axios';
+import nightbackground from '/src/components/CityNightViewBackground.vue';
 
 export default {
 
@@ -104,6 +110,9 @@ export default {
           }
         });
     }
+  },
+  components: {
+    nightbackground,
   }
 }
 
@@ -117,6 +126,18 @@ export default {
   padding: 0;
   box-sizing: border-box;
   font-family: 'Quicksand', sans-serif;
+}
+
+.login_backgound{
+  height: 100vh;
+  width:100vh;
+  display: flex;
+  justify-content: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: red;
+  overflow: scroll;
 }
 
 .container {

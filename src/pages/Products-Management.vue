@@ -25,168 +25,22 @@
     <div class="mask" v-if="isShowForm || isShowEditForm"></div>
 
     <!-- add -->
-    <div class='add-box' v-if="isShowForm">
-        <div class='box-form'>
-            <div class='box-login-tab'></div>
-            <div class='box-login-title'>
-                <div class='i i-login'></div>
-                <h2>新增商品</h2>
-            </div>
-            <div class='box-login'>
-                <div class='fieldset-body' id='login_form'>
-                    <button onclick="openLoginInfo();" class='b b-form i i-more' title='Mais Informações'></button>
-                    <p class='field'>
-                        <label for='user'>商品名稱</label>
-                        <input type='text' id='user' name='user' title='Username' v-model="newProduct.title" />
-                        <span id='valida' class='i i-warning'></span>
-                    </p>
-                    <p class='field'>
-                        <label for='pass'>商品URL</label>
-                        <input type='text' id='user' name='user' title='Username' v-model="newProduct.photoUrl" />
-                        <span id='valida' class='i i-close'></span>
-                    </p>
-                    <p class='field'>
-                        <label for='pass'>商品描述</label>
-                        <input type='text' id='user' name='user' title='Username' v-model="newProduct.description" />
-                        <span id='valida' class='i i-close'></span>
-                    </p>
-                    <p class='field'>
-                        <label for='pass'>價格</label>
-                        <input type='text' id='user' name='user' title='Username' v-model="newProduct.price" />
-                        <span id='valida' class='i i-close'></span>
-                    </p>
-                    <p class='field'>
-                        <label for='pass'>商店名稱</label>
-                        <input type='text' id='user' name='user' title='Username' v-model="newProduct.storeUrl" />
-                        <span id='valida' class='i i-close'></span>
-                    </p>
-                    <p class='field'>
-                        <label for='pass'>商店URL</label>
-                        <input type='text' id='user' name='user' title='Username' v-model="newProduct.storeName" />
-                        <span id='valida' class='i i-close'></span>
-                    </p>
+     <div v-if="isShowForm">
+     </div>
 
-                    <!-- <label class='checkbox'>
-            <input type='checkbox' value='TRUE' title='Keep me Signed in' /> Keep me Signed in
-          </label> -->
-
-
-                    <input type='submit' id='do_login' value='新增' title='Get Started' @click="onSend()" />
-                    <input type='submit' id='leaves' value='取消' title='Get Started' @click="isShowForm = false" />
-                </div>
-            </div>
-        </div>
-        <!-- <div class='box-info'>
-    <p><button onclick="closeLoginInfo();" class='b b-info i i-left' title='Back to Sign In'></button>
-    <h3>Need Help?</h3>
-    </p>
-    <div class='line-wh'></div>
-    <button onclick="" class='b-support' title='Forgot Password?'> Forgot Password?</button>
-    <button onclick="" class='b-support' title='Contact Support'> Contact Support</button>
-    <div class='line-wh'></div>
-    <button onclick="" class='b-cta' title='Sign up now!'> CREATE ACCOUNT</button>
-  </div> -->
-    </div>
-    <!-- <div class='icon-credits'>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a>, <a
-    href="http://www.flaticon.com/authors/budi-tanrim" title="Budi Tanrim">Budi Tanrim</a> & <a
-    href="http://www.flaticon.com/authors/nice-and-serious" title="Nice and Serious">Nice and Serious</a> from <a
-    href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a
-    href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a>
-</div> -->
 
     <!-- Edit -->
-    <div class='edit-box' v-if="isShowEditForm">
-        <div class='box-form'>
-            <div class='box-login-tab'></div>
-            <div class='box-login-title'>
-                <div class='i i-login'></div>
-                <h2> 商品編號{{ editedProduct[prepareOnEditIndex].productId }}</h2>
-            </div>
-            <div class='box-login'>
-                <div class='fieldset-body' id='login_form'>
-                    <button onclick="openLoginInfo();" class='b b-form i i-more' title='Mais Informações'></button>
-                    <p class='field'>
-                        <label for='user'>商品名稱</label>
-                        <input type='text' id='user' name='user' title='Username'
-                            v-model="editedProduct[prepareOnEditIndex].title" />
-                        <span id='valida' class='i i-warning'></span>
-                    </p>
-                    <p class='field'>
-                        <label for='pass'>商品URL</label>
-                        <input type='text' id='user' name='user' title='Username'
-                            v-model="editedProduct[prepareOnEditIndex].photoUrl" />
-                        <span id='valida' class='i i-close'></span>
-                    </p>
-                    <p class='field'>
-                        <label for='pass'>商品描述</label>
-                        <input type='text' id='user' name='user' title='Username'
-                            v-model="editedProduct[prepareOnEditIndex].description" />
-                        <span id='valida' class='i i-close'></span>
-                    </p>
-                    <p class='field'>
-                        <label for='pass'>價格</label>
-                        <input type='text' id='user' name='user' title='Username'
-                            v-model="editedProduct[prepareOnEditIndex].price" />
-                        <span id='valida' class='i i-close'></span>
-                    </p>
-                    <p class='field'>
-                        <label for='pass'>商店名稱</label>
-                        <input type='text' id='user' name='user' title='Username'
-                            v-model="editedProduct[prepareOnEditIndex].storeUrl" />
-                        <span id='valida' class='i i-close'></span>
-                    </p>
-                    <p class='field'>
-                        <label for='pass'>商店URL</label>
-                        <input type='text' id='user' name='user' title='Username'
-                            v-model="editedProduct[prepareOnEditIndex].storeName" />
-                        <span id='valida' class='i i-close'></span>
-                    </p>
-
-                    <input type='submit' id='do_login' value='修改' title='Get Started' @click="isShowModel_forEdit = true" />
-                    <input type='submit' id='leaves' value='取消' title='Get Started' @click="isShowEditForm = false" />
-
-                </div>
-            </div>
-        </div>
-        <!-- <div class='box-info'>
-    <p><button onclick="closeLoginInfo();" class='b b-info i i-left' title='Back to Sign In'></button>
-    <h3>Need Help?</h3>
-    </p>
-    <div class='line-wh'></div>
-    <button onclick="" class='b-support' title='Forgot Password?'> Forgot Password?</button>
-    <button onclick="" class='b-support' title='Contact Support'> Contact Support</button>
-    <div class='line-wh'></div>
-    <button onclick="" class='b-cta' title='Sign up now!'> CREATE ACCOUNT</button>
-  </div> -->
+    <div v-if="isShowEditForm">
     </div>
+    
 
 
     <!-- 純手工對話盒 -->
-    <div v-if="isShowModel_forDelete" class="model-container">
-        <div class="model-title">提醒</div>
-        <div class="model-content">
-            <img class="model-icon"
-                src="https://static.vecteezy.com/system/resources/previews/000/440/213/non_2x/question-mark-vector-icon.jpg" />
-            <div class="model-message">確定要刪除資料嗎?</div>
-        </div>
-        <div class="model-content">
-            <div class="model-cancel" @click="isShowModel_forDelete = false">取消</div>
-            <div class="model-ok" @click="confirmDelete()">確定</div>
-        </div>
-    </div>
-
-    <div v-if="isShowModel_forEdit" class="model-container">
-        <div class="model-title">提醒</div>
-        <div class="model-content">
-            <img class="model-icon"
-                src="https://static.vecteezy.com/system/resources/previews/000/440/213/non_2x/question-mark-vector-icon.jpg" />
-            <div class="model-message">確定要更改資料嗎?</div>
-        </div>
-        <div class="model-content">
-            <div class="model-cancel" @click="isShowModel_forEdit = false">取消</div>
-            <div class="model-ok" @click="confirmEdit()">確定</div>
-        </div>
-    </div>
+    <div v-if="isShowModel_forDelete"></div>
+   
+    
+    <div v-if="isShowModel_forEdit"></div>
+    
 </template>
 
 <script>

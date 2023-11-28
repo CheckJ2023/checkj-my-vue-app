@@ -1,52 +1,54 @@
 <template>
-     <div class='add-box' >
+    <div class='edit-box' v-if="isShowEditForm">
         <div class='box-form'>
             <div class='box-login-tab'></div>
             <div class='box-login-title'>
                 <div class='i i-login'></div>
-                <h2>新增商品</h2>
+                <h2> 商品編號{{ editedProduct[prepareOnEditIndex].productId }}</h2>
             </div>
             <div class='box-login'>
                 <div class='fieldset-body' id='login_form'>
                     <button onclick="openLoginInfo();" class='b b-form i i-more' title='Mais Informações'></button>
                     <p class='field'>
                         <label for='user'>商品名稱</label>
-                        <input type='text' id='user' name='user' title='Username' v-model="newProduct.title" />
+                        <input type='text' id='user' name='user' title='Username'
+                            v-model="editedProduct[prepareOnEditIndex].title" />
                         <span id='valida' class='i i-warning'></span>
                     </p>
                     <p class='field'>
                         <label for='pass'>商品URL</label>
-                        <input type='text' id='user' name='user' title='Username' v-model="newProduct.photoUrl" />
+                        <input type='text' id='user' name='user' title='Username'
+                            v-model="editedProduct[prepareOnEditIndex].photoUrl" />
                         <span id='valida' class='i i-close'></span>
                     </p>
                     <p class='field'>
                         <label for='pass'>商品描述</label>
-                        <input type='text' id='user' name='user' title='Username' v-model="newProduct.description" />
+                        <input type='text' id='user' name='user' title='Username'
+                            v-model="editedProduct[prepareOnEditIndex].description" />
                         <span id='valida' class='i i-close'></span>
                     </p>
                     <p class='field'>
                         <label for='pass'>價格</label>
-                        <input type='text' id='user' name='user' title='Username' v-model="newProduct.price" />
+                        <input type='text' id='user' name='user' title='Username'
+                            v-model="editedProduct[prepareOnEditIndex].price" />
                         <span id='valida' class='i i-close'></span>
                     </p>
                     <p class='field'>
                         <label for='pass'>商店名稱</label>
-                        <input type='text' id='user' name='user' title='Username' v-model="newProduct.storeUrl" />
+                        <input type='text' id='user' name='user' title='Username'
+                            v-model="editedProduct[prepareOnEditIndex].storeUrl" />
                         <span id='valida' class='i i-close'></span>
                     </p>
                     <p class='field'>
                         <label for='pass'>商店URL</label>
-                        <input type='text' id='user' name='user' title='Username' v-model="newProduct.storeName" />
+                        <input type='text' id='user' name='user' title='Username'
+                            v-model="editedProduct[prepareOnEditIndex].storeName" />
                         <span id='valida' class='i i-close'></span>
                     </p>
 
-                    <!-- <label class='checkbox'>
-            <input type='checkbox' value='TRUE' title='Keep me Signed in' /> Keep me Signed in
-          </label> -->
+                    <input type='submit' id='do_login' value='修改' title='Get Started' @click="isShowModel_forEdit = true" />
+                    <input type='submit' id='leaves' value='取消' title='Get Started' @click="isShowEditForm = false" />
 
-
-                    <input type='submit' id='do_login' value='新增' title='Get Started' @click="onSend()" />
-                    <input type='submit' id='leaves' value='取消' title='Get Started' @click="isShowForm = false" />
                 </div>
             </div>
         </div>
@@ -61,5 +63,5 @@
     <button onclick="" class='b-cta' title='Sign up now!'> CREATE ACCOUNT</button>
   </div> -->
     </div>
+    
 </template>
-
