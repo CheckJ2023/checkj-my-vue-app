@@ -1,50 +1,111 @@
 <template>
-    <div class="toast" v-if="isShowToast">{{ toastMessage }}</div>
+    <div class="product_background">
+        <div class="toast" v-if="isShowToast">{{ toastMessage }}</div>
 
-    <div class="add-btn" @click="isShowForm = true">
-        <img src="src/assets/plus.svg" style="width: 100%;" />
-    </div>
+        <div class="add-btn" @click="isShowForm = true">
+            <img src="src/assets/plus.svg" style="width: 100%;" />
+        </div>
 
-    <!-- <div class="nav-bar">
-  <button type="text" class="submit" @click="isShowForm = true">新增商品</button>
-</div> -->
+        <!-- <div class="nav-bar">
+        <button type="text" class="submit" @click="isShowForm = true">新增商品</button>
+        </div> -->
 
-    <div class="product_container">
-        <div v-for="p, index in data">
-            <productCardManagement 
-            :productIndex="index"
-            :productTitle="p.title"
-            :productPhotoUrl="p.photoUrl"
-            :productPrice = "p.price"
-            :productDescription="p.description"
+        <div class="product_container">
+            <div v-for="p, index in data">
+                <productManagementCard
+                :productIndex="index"
+                :productTitle="p.title"
+                :productPhotoUrl="p.photoUrl"
+                :productPrice = "p.price"
+                :productDescription="p.description"
+
+                @onEdit="onEdit(index)"
+                @onDelete="onDelete(index)"
+
+                @onSettingMode="isSetting=true"
+                @notOnSettingMode="isSetting=false"
+                :isSetting="isSetting"
+                />
+            </div>
+        </div>
+
+
+        <div class="mask" v-if="isShowForm || isShowEditForm"></div>
+
+        <!-- add -->
+        <div v-if="isShowForm">
+            <productAddingCard 
+                :newProductTitle="newProduct.title"
+                :newProductPhotoUrl="newProduct.photoUrl"
+                :newProductDescription="newProduct.description"
+                :newProductPrice="newProduct.price"
+                :newProductStoreName="newProduct.storeName"
+                :newProductStoreUrl="newProduct.storeUrl"
+                @update:newProductTitle="newProduct.title = $event"
+                @update:newProductPhotoUrls="newProduct.photoUrl = $event"
+                @update:newProductDescription="newProduct.description = $event"
+                @update:newProductPrice="newProduct.price = $event"
+                @update:newProductStoreName="newProduct.storeName = $event"
+                @update:newProductStoreUrl="newProduct.storeUrl = $event"
+
+                @onSend="onSend(index)"
+                @isNotShowForm="isShowForm = false"
             />
         </div>
-    </div>
 
+        <!-- Edit -->
+        <div v-if="isShowEditForm">
+            <productEditingCard 
+                :EditProductID="editedProduct[prepareOnEditIndex].productId"
+                :EditProductTitle="editedProduct[prepareOnEditIndex].title"
+                :EditProductPhotoUrl="editedProduct[prepareOnEditIndex].photoUrl"
+                :EditProductDescription="editedProduct[prepareOnEditIndex].description"
+                :EditProductPrice="editedProduct[prepareOnEditIndex].price"
+                :EditProductStoreName="editedProduct[prepareOnEditIndex].storeName"
+                :EditProductStoreUrl="editedProduct[prepareOnEditIndex].storeUrl"
+                @update:EditProductTitle="editedProduct[prepareOnEditIndex].title = $event"
+                @update:EditProductPhotoUrls="editedProduct[prepareOnEditIndex].photoUrl = $event"
+                @update:EditProductDescription="editedProduct[prepareOnEditIndex].description = $event"
+                @update:EditProductPrice="editedProduct[prepareOnEditIndex].price = $event"
+                @update:EditProductStoreName="editedProduct[prepareOnEditIndex].storeName = $event"
+                @update:EditProductStoreUrl="editedProduct[prepareOnEditIndex].storeUrl = $event"
 
-    <div class="mask" v-if="isShowForm || isShowEditForm"></div>
+                @isShowModelForEdit="isShowModel_forEdit = true"
+                @isNotShowForm="isShowEditForm = false"
+            />
+        </div>
+        
 
-    <!-- add -->
-     <div v-if="isShowForm">
-     </div>
-
-
-    <!-- Edit -->
-    <div v-if="isShowEditForm">
-    </div>
+        <!-- 純手工對話盒 -->
+        <div v-if="isShowModel_forDelete">
+            <DoubleCheckBox
+            modelMessage = "確定要刪除資料嗎?"
+            @isNotShowModel="isShowModel_forDelete = false"
+            @confirm="confirmDelete()"
+            />
+        </div>
     
+        
+        
+        <div v-if="isShowModel_forEdit">
+            <DoubleCheckBox
+            modelMessage = "確定要更改資料嗎?"
+            @isNotShowModel="isShowModel_forEdit = false"
+            @confirm="confirmEdit()"
+            />
+        </div>
 
-
-    <!-- 純手工對話盒 -->
-    <div v-if="isShowModel_forDelete"></div>
-   
-    
-    <div v-if="isShowModel_forEdit"></div>
+    </div>
     
 </template>
 
 <script>
 import axios from 'axios';
+import productManagementCard from "/src/components/Product-Management-Card.vue";
+import productAddingCard from "/src/components/Product-Adding-Card.vue";
+import productEditingCard from "/src/components/Product-Editing-Card.vue";
+import DoubleCheckBox from "/src/components/DoubleCheck-Box.vue";
+
 export default {
     data() {
         return {
@@ -75,6 +136,7 @@ export default {
 
 
             isSetting: true,
+            
             isBuy: [],
             dataEditMode: [],
             isShowForm: false, // 控制新增表單是否要出現
@@ -91,22 +153,14 @@ export default {
     // Vue要使用的方法
     methods: {
 
-        //購買資料相關方法
-        toggleBuyStatus(index) {
-            this.isBuy[index] = true;
-        },
-        resetBuyStatus(index) {
-            this.isBuy[index] = false;
-        },
-
         //編輯相關方法
         onEdit(index) {
             // this.showToast('onEdit: ' + this.data[index].productId);
             this.editedProduct[index] = JSON.parse(JSON.stringify(this.data[index]));
-
+            
             this.isShowEditForm = true;
             this.prepareOnEditIndex = index;
-
+            
         },
         // onCancelEdit(index) {
         //   // this.dataEditMode[index] = false; // 離開編輯模式
@@ -118,7 +172,9 @@ export default {
 
             // this.onCancelEdit(index);
             // 呼叫Update product API
-            //  console.log(this.editedProduct[this.prepareOnEditIndex]);
+            console.log("prepareOnEditIndex="+this.prepareOnEditIndex);
+             console.log("this.editedProduct="+this.editedProduct[this.prepareOnEditIndex].title);
+             
             axios.put('http://localhost:8080/product', this.editedProduct[this.prepareOnEditIndex])
                 .then((response) => {
                     console.log(response.data.code);
@@ -232,702 +288,50 @@ export default {
                         this.data = [];  // 清空資料
                 }
             });
+    },
+    components:{
+        productManagementCard,
+        productAddingCard,
+        productEditingCard,
+        DoubleCheckBox
     }
+
 }
 </script>
 
 <style scoped>
 @import 'https://fonts.googleapis.com/css?family=Open+Sans|Quicksand:400,700';
 
+.product_background {
+  position:absolute;
+  top:0;
+  left:0;
+  height:100%;
+  width:100%;
+  background: #e3e3d8;
+  font-family: 'Quicksand', sans-serif;
+} 
+
 /* ------------ */
 /*   product    */
 /* ------------ */
 .product_container {
+  position:fixed;
+  height:100%;
+  width:100%;
+  display: flex;
+  flex-wrap: wrap;
+  overflow: scroll;
 
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    z-index: 0;
-    background: #e3e3d8;
-    font-family: 'Quicksand', sans-serif;
+  justify-content: flex-start;
+  z-index: 0;
+  background: #e3e3d8;
+  font-family: 'Quicksand', sans-serif;
+  /* padding:5%; */
+  gap:5%;
 }
 
-.wrapper {
-    width: 300px;
-    height: 500px;
-    background: white;
-    margin: 1%;
-    position: relative;
-    overflow: hidden;
-    border-radius: 10px 10px 10px 10px;
-    box-shadow: 0;
-    transform: scale(0.95);
-    transition: box-shadow 0.5s, transform 0.5s;
-    display: flex;
-}
-
-.wrapper:hover {
-    transform: scale(1);
-    box-shadow: 5px 20px 30px rgba(0, 0, 0, 0.2);
-}
-
-.wrapper .container {
-    width: 100%;
-    height: 100%;
-}
-
-.wrapper .container .top {
-    height: 80%;
-    width: 100%;
-    /* background: url(https://s-media-cache-ak0.pinimg.com/736x/49/80/6f/49806f3f1c7483093855ebca1b8ae2c4.jpg)
-        no-repeat center center; */
-
-    -webkit-background-size: 100%;
-    -moz-background-size: 100%;
-    -o-background-size: 100%;
-    background-size: 90%;
-    background-repeat: no-repeat;
-    background-position: center;
-
-}
-
-.wrapper .container .bottom {
-    width: 200%;
-    height: 20%;
-    transition: transform 0.5s;
-}
-
-.wrapper .container .bottom.clicked {
-    transform: translateX(-50%);
-}
-
-.wrapper .container .bottom h1 {
-    margin: 0;
-    padding: 0;
-}
-
-.wrapper .container .bottom p {
-    margin: 0;
-    padding: 0;
-}
-
-.wrapper .container .bottom .left {
-    height: 100%;
-    width: 50%;
-    background: #f4f4f4;
-    position: relative;
-    float: left;
-}
-
-.wrapper .container .bottom .left .details {
-    font-size: 0.6em;
-    padding: 0px 0px 0px 20px;
-    float: left;
-    width: calc(70% - 40px);
-}
-
-.wrapper .container .bottom .left .buy {
-    float: right;
-    width: calc(30% - 2px);
-    height: 100%;
-    background: #f1f1f1;
-    transition: background 0.5s;
-    border-left: solid thin rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-}
-
-.wrapper .container .bottom .left .buy i {
-    font-size: 30px;
-    padding: 30px;
-    color: #254053;
-    transition: transform 0.5s;
-}
-
-.wrapper .container .bottom .left .buy:hover {
-    background: #A6CDDE;
-}
-
-.wrapper .container .bottom .left .buy:hover i {
-    transform: translateY(5px);
-    color: #00394B;
-}
-
-.wrapper .container .bottom .right {
-    width: 50%;
-    background: #A6CDDE;
-    color: white;
-    float: right;
-    height: 200%;
-    overflow: hidden;
-
-}
-
-/* .wrapper .container .bottom .right .details {
-  padding: 20px;
-  float: right;
-  width: calc(70% - 40px);
-} */
-
-.wrapper .container .bottom .right .details .select {
-
-    padding: 0px;
-    /* margin-left:auto; */
-    display: flex;
-    /* flex-wrap: wrap; */
-    /* gap: 10px; */
-    width: calc(70% - 40px);
-
-}
-
-.wrapper .container .bottom .right .details .select .button {
-    padding: 24% 17% 24% 17%;
-    line-height: 1;
-    display: inline-block;
-    font-size: 1.2rem;
-    text-decoration: none;
-    /* border-radius: 5px; */
-    color: #fff;
-    background-color: #4b908f;
-    min-width: 50px;
-    text-align: center;
-    cursor: pointer;
-}
-
-.wrapper .container .bottom .right .details .select .button #edit_button {}
-
-.wrapper .container .bottom .right .details .select .button:hover {
-    background-color: yellowgreen;
-}
-
-.wrapper .container .bottom .right .done {
-    width: calc(30% - 2px);
-    float: left;
-    transition: transform 0.5s;
-    border-right: solid thin rgba(255, 255, 255, 0.3);
-    height: 50%;
-
-}
-
-.wrapper .container .bottom .right .done i {
-    font-size: 30px;
-    padding: 30px;
-    color: white;
-}
-
-.wrapper .container .bottom .right .remove {
-    width: calc(30% - 1px);
-    clear: both;
-    border-right: solid thin rgba(255, 255, 255, 0.3);
-    height: 50%;
-    background: #BC3B59;
-    transition: transform 0.5s, background 0.5s;
-    cursor: pointer;
-}
-
-.wrapper .container .bottom .right .remove:hover {
-    background: #9B2847;
-}
-
-.wrapper .container .bottom .right .remove:hover i {
-    transform: translateY(5px);
-}
-
-.wrapper .container .bottom .right .remove i {
-    transition: transform 0.5s;
-    font-size: 30px;
-    padding: 30px;
-    color: white;
-}
-
-.wrapper .container .bottom .right:hover .remove,
-.wrapper .container .bottom .right:hover .done {
-    transform: translateY(-101%);
-}
-
-.wrapper .inside {
-    /* z-index: 9; */
-    z-index: 1;
-    background: #92879b;
-    width: 140px;
-    height: 140px;
-    position: absolute;
-    top: -70px;
-    right: -70px;
-    border-radius: 0px 0px 200px 200px;
-    transition: all 0.5s, border-radius 2s, top 1s;
-    overflow: hidden;
-}
-
-.wrapper .inside .icon {
-    position: absolute;
-    right: 85px;
-    top: 85px;
-    color: white;
-    opacity: 1;
-}
-
-.wrapper .inside:hover {
-    width: 100%;
-    right: 0;
-    top: 0;
-    border-radius: 0;
-    height: 80%;
-}
-
-.wrapper .inside:hover .icon {
-    opacity: 0;
-    right: 15px;
-    top: 15px;
-}
-
-.wrapper .inside:hover .contents {
-    opacity: 1;
-    transform: scale(1);
-    transform: translateY(0);
-}
-
-.wrapper .inside .contents {
-    padding: 5%;
-    opacity: 0;
-    transform: scale(0.5);
-    transform: translateY(-200%);
-    transition: opacity 0.2s, transform 0.8s;
-
-
-}
-
-.wrapper .inside .contents table {
-    text-align: left;
-    width: 100%;
-}
-
-.wrapper .inside .contents h1,
-.wrapper .inside .contents p,
-.wrapper .inside .contents table {
-    color: white;
-}
-
-.wrapper .inside .contents p {
-    font-size: 15px;
-}
-
-/* ------------ */
-/*  admin box   */
-/* ------------ */
-
-
-/* Login Box */
-
-
-.add-box,
-.edit-box {
-    width: 330px;
-    position: fixed;
-    top: 10vw;
-    left: 50%;
-
-    -webkit-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-    z-index: 1;
-}
-
-.box-form {
-    width: 500px;
-    position: fixed;
-    /* z-index: 1; */
-    z-index: 5;
-    overflow: hidden;
-}
-
-.box-login-tab {
-    width: 50%;
-    height: 40px;
-    background: #fdfdfd;
-    position: relative;
-    float: left;
-    /* z-index: 1; */
-    z-index: 5;
-
-    -webkit-border-radius: 6px 6px 0 0;
-    -moz-border-radius: 6px 6px 0 0;
-    border-radius: 6px 6px 0 0;
-
-    -webkit-transform: perspective(5px) rotateX(0.93deg) translateZ(-1px);
-    transform: perspective(5px) rotateX(0.93deg) translateZ(-1px);
-    -webkit-transform-origin: 0 0;
-    transform-origin: 0 0;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-
-    -webkit-box-shadow: 15px -15px 30px rgba(0, 0, 0, 0.32);
-    -moz-box-shadow: 15px -15px 30px rgba(0, 0, 0, 0.32);
-    box-shadow: 15px -15px 30px rgba(0, 0, 0, 0.32);
-}
-
-.box-login-title {
-    margin-left: 3%;
-    font-size: 0.75em;
 
-    width: 35%;
-    height: 40px;
-    position: absolute;
-    float: left;
-    /* z-index: 2; */
-    z-index: 6;
-}
-
-.box-login {
-    position: relative;
-    top: -4px;
-    width: 320px;
-    background: #fdfdfd;
-    text-align: center;
-    overflow: hidden;
-    /* z-index: 2; */
-    z-index: 6;
-
-    -webkit-border-top-right-radius: 6px;
-    -webkit-border-bottom-left-radius: 6px;
-    -webkit-border-bottom-right-radius: 6px;
-    -moz-border-radius-topright: 6px;
-    -moz-border-radius-bottomleft: 6px;
-    -moz-border-radius-bottomright: 6px;
-    border-top-right-radius: 6px;
-    border-bottom-left-radius: 6px;
-    border-bottom-right-radius: 6px;
-
-    -webkit-box-shadow: 15px 30px 30px rgba(0, 0, 0, 0.32);
-    -moz-box-shadow: 15px 30px 30px rgba(0, 0, 0, 0.32);
-    box-shadow: 15px 30px 30px rgba(0, 0, 0, 0.32);
-}
-
-.box-info {
-    width: 260px;
-    top: 60px;
-    position: absolute;
-    right: -5px;
-    padding: 15px 15px 15px 30px;
-    background-color: rgba(255, 255, 255, 0.6);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    /* z-index: 0; */
-    z-index: 4;
-
-    -webkit-border-radius: 6px;
-    -moz-border-radius: 6px;
-    border-radius: 6px;
-
-    -webkit-box-shadow: 15px 30px 30px rgba(0, 0, 0, 0.32);
-    -moz-box-shadow: 15px 30px 30px rgba(0, 0, 0, 0.32);
-    box-shadow: 15px 30px 30px rgba(0, 0, 0, 0.32);
-    overflow: hidden;
-}
-
-.line-wh {
-    width: 100%;
-    height: 1px;
-    top: 0px;
-    margin: 12px auto;
-    position: relative;
-    border-top: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-
-/* Form */
-
-
-a {
-    text-decoration: none;
-}
-
-button:focus {
-    outline: 0;
-}
-
-.b {
-    height: 24px;
-    line-height: 24px;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-}
-
-.b-form {
-    opacity: 0.5;
-    margin: 10px 20px;
-    float: right;
-}
-
-.b-info {
-    opacity: 0.5;
-    float: left;
-}
-
-.b-form:hover,
-.b-info:hover {
-    opacity: 1;
-}
-
-.b-support,
-.b-cta {
-    width: 100%;
-    padding: 0px 15px;
-    font-family: 'Quicksand', sans-serif;
-    font-weight: 700;
-    letter-spacing: -1px;
-    font-size: 16px;
-    line-height: 32px;
-    cursor: pointer;
-
-    -webkit-border-radius: 16px;
-    -moz-border-radius: 16px;
-    border-radius: 16px;
-}
-
-.b-support {
-    border: #87314e 1px solid;
-    background-color: transparent;
-    color: #87314e;
-    margin: 6px 0;
-}
-
-.b-cta {
-    border: #df405a 1px solid;
-    background-color: #df405a;
-    color: #fff;
-}
-
-.b-support:hover,
-.b-cta:hover {
-    color: #fff;
-    background-color: #87314e;
-    border: #87314e 1px solid;
-}
-
-.fieldset-body {
-    display: table;
-}
-
-.fieldset-body p {
-    width: 100%;
-    display: inline-table;
-    padding: 5px 20px;
-    margin-bottom: 2px;
-}
-
-label {
-    float: left;
-    width: 100%;
-    top: 0px;
-    color: #032942;
-    font-size: 13px;
-    font-weight: 700;
-    text-align: left;
-    line-height: 1.5;
-}
-
-label.checkbox {
-    float: left;
-    padding: 5px 20px;
-    line-height: 1.7;
-}
-
-input[type=text],
-input[type=password] {
-    width: 100%;
-    height: 32px;
-    padding: 0px 10px;
-    background-color: rgba(0, 0, 0, 0.03);
-    border: none;
-    display: inline;
-    color: #303030;
-    font-size: 16px;
-    font-weight: 400;
-    float: left;
-
-    -webkit-box-shadow: inset 1px 1px 0px rgba(0, 0, 0, 0.05), 1px 1px 0px rgba(255, 255, 255, 1);
-    -moz-box-shadow: inset 1px 1px 0px rgba(0, 0, 0, 0.05), 1px 1px 0px rgba(255, 255, 255, 1);
-    box-shadow: inset 1px 1px 0px rgba(0, 0, 0, 0.05), 1px 1px 0px rgba(255, 255, 255, 1);
-}
-
-input[type=text]:focus,
-input[type=password]:focus {
-    background-color: #f8f8c6;
-    outline: none;
-}
-
-input[type=submit] {
-    width: 100%;
-    height: 48px;
-    /* margin-top: 24px; */
-    margin-top: 1%;
-    padding: 0px 20px;
-    font-family: 'Quicksand', sans-serif;
-    font-weight: 700;
-    font-size: 18px;
-    color: #fff;
-    line-height: 40px;
-    text-align: center;
-    background-color: #317a87;
-    border: 1px #317a87 solid;
-    opacity: 1;
-    cursor: pointer;
-}
-
-input[type=submit]:hover {
-    background-color: #5b98a3;
-    border: 1px #5b98a3 solid;
-}
-
-input[type=submit]:focus {
-    outline: none;
-}
-
-input#leaves {
-    background-color: #87314e;
-    border: 1px #87314e solid;
-}
-
-input#leaves:hover {
-    background-color: #df405a;
-    border: 1px #df405a solid;
-}
-
-input#leaves:focus {
-    outline: none;
-}
-
-p.field span.i {
-    width: 24px;
-    height: 24px;
-    float: right;
-    position: relative;
-    margin-top: -26px;
-    right: 2px;
-    /* z-index: 2; */
-    z-index: 6;
-    display: none;
-
-    -webkit-animation: bounceIn 0.6s linear;
-    -moz-animation: bounceIn 0.6s linear;
-    -o-animation: bounceIn 0.6s linear;
-    animation: bounceIn 0.6s linear;
-}
-
-
-/* Transitions */
-
-
-.box-form,
-.box-info,
-.b,
-.b-support,
-.b-cta,
-input[type=submit],
-p.field span.i {
-
-    -webkit-transition: all 0.3s;
-    -moz-transition: all 0.3s;
-    -ms-transition: all 0.3s;
-    -o-transition: all 0.3s;
-    transition: all 0.3s;
-}
-
-
-/* Credits */
-
-
-.icon-credits {
-    width: 100%;
-    position: absolute;
-    bottom: 4px;
-    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, sans-serif;
-    font-size: 12px;
-    color: rgba(255, 255, 255, 0.1);
-    text-align: center;
-    /* z-index: -1; */
-    z-index: 3;
-}
-
-.icon-credits a {
-    text-decoration: none;
-    color: rgba(255, 255, 255, 0.2);
-}
-
-
-/* -----------------*/
-/*    手工對話盒子   */
-/* -----------------*/
-.model-container {
-    display: flex;
-    position: fixed;
-    width: 400px;
-    border-width: 1px;
-    border-color: black;
-    border-radius: 20px;
-    border-bottom-right-radius: 5px;
-    border-bottom-left-radius: 5px;
-    height: fit-content;
-    flex-direction: column;
-    background-color: white;
-    padding-bottom: 10px;
-    left: 0;
-    right: 0;
-    margin: auto;
-    top: 0;
-    bottom: 0;
-    z-index: 1;
-}
-
-.model-title {
-    border-top-right-radius: 5px;
-    border-top-left-radius: 5px;
-    padding: 20px;
-    font-size: 1.5em;
-    font-weight: 800;
-    color: white;
-    background-color: rgb(161, 109, 129);
-}
-
-.model-content {
-    display: flex;
-    align-items: center;
-    padding: 10px 20px 10px 20px;
-    gap: 20px;
-    justify-content: center;
-}
-
-.model-icon {
-    width: 32px;
-    height: 32px;
-    margin: 20px;
-    margin-right: 0px;
-    background-color: #a82545;
-}
-
-.model-message {
-    width: 100%;
-    color: #202932;
-}
-
-.model-cancel,
-.model-ok {
-    color: white;
-    width: 160px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-.model-cancel {
-    background-color: #be7b8c;
-}
-
-.model-ok {
-    background-color: rgb(94, 135, 138);
-}
 
 
 /* ------------ */

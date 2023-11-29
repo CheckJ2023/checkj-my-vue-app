@@ -6,8 +6,8 @@
         <div :class="['bottom', isBuy ? 'clicked' : '']">
           <div class="left">
             <div class="details">
-              <h1>{{ productTitle }}</h1>
-              <p>{{ productPrice }}</p>
+              <h1 class="h1ProductTitleStyle">{{ productTitle }}</h1>
+              <p class="pProductTitleStyle">{{ productPrice }}</p>
               <!-- <h1>{{ p.title }} ${{ p.price }}</h1> -->
             </div>
             <!-- <div class="buy" @click="toggleBuyStatus(index)"> -->
@@ -122,7 +122,8 @@ export default {
   width: 300px;
   height: 500px;
   background: white;
-  margin: 2%;
+  margin-right: 10%;
+  margin-left: 10%;
   position: relative;
   overflow: hidden;
   border-radius: 10px 10px 10px 10px;
@@ -173,6 +174,29 @@ export default {
 .wrapper .container .bottom p {
   margin: 0;
   padding: 0;
+}
+
+.wrapper .container .bottom .h1ProductTitleStyle {
+   font-size: 1.8em;
+    margin: 0;
+    padding: 0;
+    margin-top: 3%;
+    margin-bottom: 3%;
+}
+
+.wrapper .container .bottom .pProductTitleStyle {
+    display: flex;
+    justify-content: center ;
+    width: fit-content;
+    border-radius: 0.5em;
+    font-size: 1.6em;
+    font-weight: bold;
+    color:#fff;
+    background-color:#A6CDDE;
+    margin: 0;
+    padding: 0;
+
+    padding: 0 5% 0 5%;
 }
 
 .wrapper .container .bottom .left {

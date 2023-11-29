@@ -97,6 +97,7 @@ export default {
   z-index: 0;
   background: #e3e3d8;
   font-family: 'Quicksand', sans-serif;
+  gap:5%;
 }
 
 </style>

@@ -2,7 +2,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Login from './pages/Login.vue'
 import Products from './pages/Products.vue'
-// import Products_Management from './pages/Products-Management.vue'
+import ProductsManagement from './pages/Products-Management.vue'
 
 const routes = [
     { 
@@ -13,10 +13,10 @@ const routes = [
         path: '/Products', 
         component: Products, 
     },
-    // { 
-    //     path: '/Products-Management', 
-    //     component: Products_Management, 
-    // },
+    { 
+        path: '/Products-Management', 
+        component: ProductsManagement, 
+    },
     // {
     //     path: '/HelloWorld',
     //     component: HelloWorld

@@ -3,68 +3,70 @@
 
 <template>
  
-  <nightbackground class="login_background">
+  <!-- <nightbackground></nightbackground> -->
 
-  <div class="container">
-    
-    <section> 
-   <div class="signin"> 
-
-    <div class="content"> 
-
-     <!-- <h2>Sign In</h2>  -->
-     <h2>會員登入</h2>
-
-     <div class="form"> 
-
-      <div v-if="isShowLoginError" class="login-failed">{{ message }}</div>
-
-      <div class="inputBox"> 
-
-       <!-- <input type="text" required> <i>Username</i>  -->
-       <input v-model="username" type="text" name="username" required> <i>帳號 </i> 
-
-      </div> 
-
-      <div class="inputBox"> 
-
-       <!-- <input type="password" required> <i>Password</i>  -->
-       <input v-model="pwd" type="password" name="pwd" required> <i>密碼</i>
-
-      </div> 
+  <div class="login_backgound"></div>
+    <div class="container">
       
+      <section> 
+    <div class="signin"> 
 
-      <!-- <div class="links"> <a href="#">Forgot Password</a> <a href="#">Signup</a>  -->
-      <div class="links"> <a href="#">忘記密碼?</a> <a href="#">註冊</a> 
+      <div class="content"> 
+
+      <!-- <h2>Sign In</h2>  -->
+      <h2>會員登入</h2>
+
+      <div class="form"> 
+
+        <div v-if="isShowLoginError" class="login-failed">{{ message }}</div>
+
+        <div class="inputBox"> 
+
+        <!-- <input type="text" required> <i>Username</i>  -->
+        <input v-model="username" type="text" name="username" required> <i>帳號 </i> 
+
+        </div> 
+
+        <div class="inputBox"> 
+
+        <!-- <input type="password" required> <i>Password</i>  -->
+        <input v-model="pwd" type="password" name="pwd" required> <i>密碼</i>
+
+        </div> 
+        
+
+        <!-- <div class="links"> <a href="#">Forgot Password</a> <a href="#">Signup</a>  -->
+        <div class="links"> <a href="#">忘記密碼?</a> <a href="#">註冊</a> 
+
+        </div> 
+
+        <!-- <div>{{ message }}</div>
+        <button @click="count++">
+          Count is: {{ count }}
+        </button> -->
+
+        <!-- <div @click="clickEvent()" class="inputBox">  -->
+        <div class="inputBox"> 
+        <!-- <input type="submit" value="Login" @click="login()">  -->
+        <input type="submit" value="登入" @click="login()"> 
+        </div> 
 
       </div> 
 
-      <!-- <div>{{ message }}</div>
-      <button @click="count++">
-        Count is: {{ count }}
-      </button> -->
-
-      <!-- <div @click="clickEvent()" class="inputBox">  -->
-      <div class="inputBox"> 
-       <!-- <input type="submit" value="Login" @click="login()">  -->
-       <input type="submit" value="登入" @click="login()"> 
       </div> 
-
-     </div> 
 
     </div> 
 
-   </div> 
+    </section> <!-- partial --> 
+    
+  </div>
+<!-- </div> -->
 
-  </section> <!-- partial --> 
-  
-</div>
-</nightbackground>
 </template>
 
 <script>
 import axios from 'axios';
-import nightbackground from '/src/components/CityNightViewBackground.vue';
+// import nightbackground from '/src/components/CityNightViewBackground.vue';
 
 export default {
 
@@ -111,9 +113,9 @@ export default {
         });
     }
   },
-  components: {
-    nightbackground,
-  }
+  // components: {
+  //   nightbackground,
+  // }
 }
 
 </script>
@@ -129,15 +131,17 @@ export default {
 }
 
 .login_backgound{
-  height: 100vh;
-  width:100vh;
+  background-image: url('/src/assets/LoginBooksBackground.jpg');
+  position:absolute;
+  top:0;
+  left:0;
+  height: 100%;
+  width:100%;
   display: flex;
   justify-content: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: red;
+  background-color: white;
   overflow: scroll;
+  opacity: 0.1;
 }
 
 .container {
