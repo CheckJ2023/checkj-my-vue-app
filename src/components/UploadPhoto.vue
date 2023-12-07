@@ -81,7 +81,6 @@ export default {
         onDrop($event) {
             this.selectedFile = $event.dataTransfer.files[0];
             console.log($event.dataTransfer.files);
-
             this.onPreview($event.dataTransfer.files[0]);
         }
     }

@@ -1,5 +1,6 @@
 <template>
     <div class="container-fluid" style="margin-right: 0;">
+        
         <div id="carouselExampleCaptions" class="carousel slide" style="overflow: hidden; margin: 0;">
             <div class="carousel-indicators">
                 <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"

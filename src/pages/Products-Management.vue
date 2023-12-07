@@ -3,7 +3,7 @@
         <div class="toast" v-if="isShowToast">{{ toastMessage }}</div>
 
         <div class="add-btn" @click="isShowForm = true">
-            <img src="src/assets/plus.svg" style="width: 100%;" />
+            <img src="/src/assets/plus.svg" style="width: 100%;" />
         </div>
 
         <!-- <div class="nav-bar">
