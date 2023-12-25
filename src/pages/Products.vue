@@ -18,7 +18,15 @@
 import axios from 'axios';
 import productCard from '/src/components/Product-Card.vue';
 
+import { inject } from "vue";
+
+
 export default {
+
+  setup() {
+      const baseBackendUrl = inject('baseBackendUrl')
+      return { baseBackendUrl }
+  },
   data() {
     return {
       username: '',
@@ -51,7 +59,8 @@ export default {
     this.username = parameters.get('username');
 
     // 打API要商品資訊
-    axios.get('http://localhost:8080/product')
+    // axios.get('http://localhost:8080/product')
+    axios.get(this.baseBackendUrl+'/product')
       .then((response) => {
         // 處理API的response
         console.log("以下是response");

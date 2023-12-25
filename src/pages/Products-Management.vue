@@ -34,7 +34,7 @@
 
         <!-- add -->
         <div v-if="isShowForm">
-            <productAddingCard 
+            <productAddingCard
                 :newProductTitle="newProduct.title"
                 :newProductPhotoUrl="newProduct.photoUrl"
                 :newProductDescription="newProduct.description"
@@ -48,7 +48,7 @@
                 @update:newProductStoreName="newProduct.storeName = $event"
                 @update:newProductStoreUrl="newProduct.storeUrl = $event"
 
-                @onSend="onSend(index)"
+                @onSend="onSend()"
                 @isNotShowForm="isShowForm = false"
             />
         </div>
@@ -106,7 +106,15 @@ import productAddingCard from "/src/components/Product-Adding-Card.vue";
 import productEditingCard from "/src/components/Product-Editing-Card.vue";
 import DoubleCheckBox from "/src/components/DoubleCheck-Box.vue";
 
+import { inject } from "vue";
+
+
 export default {
+
+    setup() {
+        const baseBackendUrl = inject('baseBackendUrl')
+        return { baseBackendUrl }
+    },
     data() {
         return {
             username: '',
@@ -175,7 +183,8 @@ export default {
             console.log("prepareOnEditIndex="+this.prepareOnEditIndex);
              console.log("this.editedProduct="+this.editedProduct[this.prepareOnEditIndex].title);
              
-            axios.put('http://localhost:8080/product', this.editedProduct[this.prepareOnEditIndex])
+            // axios.put('http://localhost:8080/product', this.editedProduct[this.prepareOnEditIndex])
+            axios.put(this.baseBackendUrl+'/product', this.editedProduct[this.prepareOnEditIndex])
                 .then((response) => {
                     console.log(response.data.code);
                     if (response.status == 200 && response.data.code == 0) {// 更新成功
@@ -206,7 +215,8 @@ export default {
         },
         confirmDelete() {
             // 呼叫刪除商品的API
-            axios.delete('http://localhost:8080/product/' + this.data[this.prepareOnDeleteIndex].productId)
+            // axios.delete('http://localhost:8080/product/' + this.data[this.prepareOnDeleteIndex].productId)
+            axios.delete(this.baseBackendUrl+'/product/' + this.data[this.prepareOnDeleteIndex].productId)
                 .then((response) => {
                     if (response.status == 200 && response.data.code == 0) {
                         this.showToast('刪除 ' + this.data[this.prepareOnDeleteIndex].productId + ' 成功');
@@ -225,7 +235,8 @@ export default {
 
         // 送出要新增的商品資料
         onSend() {
-            axios.post('http://localhost:8080/product', this.newProduct)
+            // axios.post('http://localhost:8080/product', this.newProduct)
+            axios.post(this.baseBackendUrl+'/product', this.newProduct)
                 .then((response) => {
                     // 打API成功
                     if (response.status == 200 && response.data.code == 0) {
@@ -237,7 +248,8 @@ export default {
                         // 新增且更新畫面用的資料以及刷新畫面 
                         // this.data.push(JSON.parse(JSON.stringify(this.newProduct)));
                         // this.$set(this.data, this.data.length, JSON.parse(JSON.stringify(this.newProduct)));
-                        axios.get('http://localhost:8080/product')
+                        // axios.get('http://localhost:8080/product')
+                        axios.get('/product')
                             .then((response) => {
 
                                 if (response.status == 200) { // API呼叫成功 
@@ -275,7 +287,8 @@ export default {
         this.username = parameters.get('username');
 
         // 打API要商品資訊
-        axios.get('http://localhost:8080/product')
+        // axios.get('http://localhost:8080/product')
+        axios.get(this.baseBackendUrl+'/product')
             .then((response) => {
                 // 處理API的response
                 console.log("以下是response");

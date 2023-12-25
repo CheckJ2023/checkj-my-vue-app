@@ -1,38 +1,29 @@
 <template>
+  <div class="bgimg"></div>
   <div class="container">
   <section class="info">
-    <img class="logo-img" src="/src/assets/VeryCodeLogo.png">
+    <img class="logo-img" src="/src/assets/VeryCodeLogo_nobackground.png">
     <!-- <img src="https://codetheweb.blog/assets/img/icon2.png"> -->
     <!-- <h1>VERY CODE IN HERE &mdash; <a href="https://codetheweb.blog/" target="_blank">PORTFOLIO AND ONGOING PROJECTS</a></h1> -->
-    <h1>VERY CODE IN HERE &mdash; <a target="_blank">CheckJ's portfolios and ongoing projects</a></h1> 
-  </section>
-  <section class="cards-wrapper">
-    <div class="card-grid-space">
-      <div class="num">01</div>
-      <!-- <a class="card" href="https://codetheweb.blog/2017/10/06/html-syntax/" style="--bg-img: url(https://images1-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&resize_w=1500&url=https://codetheweb.blog/assets/img/posts/html-syntax/cover.jpg)"> -->
-      <a class="card" style="--bg-img: url(https://images1-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&resize_w=1500&url=https://codetheweb.blog/assets/img/posts/html-syntax/cover.jpg)"> 
-       
-        <div>
-          <h1> Flutter <br/> Mobile App: Personal Voice Assistant </h1>
-          <p> It's a small project about building a mobile app combined with OpenAI ChatGPT and some 
-            useful flutter plugins.  
-          </p>
-          <div class="date">6 Jun 2023</div>
-          <div class="tags">
-            <div class="tag">Flutter</div><div class="tag">Dart</div>
-            <div class="tag">ChatGPT</div>
+    <h1 class="Title-wrapper">
+      <div class="veryCodeTitle">VERY CODE IN HERE &mdash; 
+        <div class="authorTitle">CheckJ
+          <div class="PortfolioTitle">個人作品集以及正在進行的專案
           </div>
         </div>
-      </a>
-    </div>
+      </div>
+    </h1> 
+  </section>
+  <section class="cards-wrapper">
+    
     <div class="card-grid-space">
       <div class="num">02</div>
       <!-- <a class="card" href="https://codetheweb.blog/2017/10/09/basic-types-of-html-tags/" style="--bg-img: url('https://images1-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&resize_w=1500&url=https://codetheweb.blog/assets/img/posts/basic-types-of-html-tags/cover.jpg')"> -->
-      <a class="card" style="--bg-img: url('https://images1-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&resize_w=1500&url=https://codetheweb.blog/assets/img/posts/basic-types-of-html-tags/cover.jpg')">
+      <!-- <a class="card" href="/src/pages/Project02AILibrary" style="--bg-img: url('https://images1-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&resize_w=1500&url=https://codetheweb.blog/assets/img/posts/basic-types-of-html-tags/cover.jpg')"> -->
+      <a class="card" href="project02" style="--bg-img: url('https://images1-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&resize_w=1500&url=https://codetheweb.blog/assets/img/posts/basic-types-of-html-tags/cover.jpg')">
         <div>
-          <h1>JAVA<br/> Bootcamping : AI library website project </h1>
-          <p> An Online library website integrated with OpenAI ChatGPT for helping the website user
-              borrowing books. 
+          <h1>JAVA<br/>健行科大職訓課程:AI線上圖書館網頁協作專案<br/>(進行中)  </h1>
+          <p> 除了有傳統圖書館網站功能，更整合了ChatGPT實現AI客服，協助使用者找書以及個性化推薦書籍。 
           </p>
           <div class="date">1 Nov 2023</div>
           <div class="tags">
@@ -44,6 +35,25 @@
         </div>
       </a>
     </div>
+
+    <div class="card-grid-space">
+      <div class="num">01</div>
+      <!-- <a class="card" href="https://codetheweb.blog/2017/10/06/html-syntax/" style="--bg-img: url(https://images1-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&resize_w=1500&url=https://codetheweb.blog/assets/img/posts/html-syntax/cover.jpg)"> -->
+      <a class="card" href="project01" style="--bg-img: url(https://images1-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&resize_w=1500&url=https://codetheweb.blog/assets/img/posts/html-syntax/cover.jpg)"> 
+       
+        <div>
+          <h1> Flutter <br/> 手機APP: 實作個人聲音助理<br/>(進行中) </h1>
+          <p> 自學撰寫手機app程式，串接ChatGPT實現有問必答的手機聲音助理。  
+          </p>
+          <div class="date">6 Jun 2023</div>
+          <div class="tags">
+            <div class="tag">Flutter</div><div class="tag">Dart</div>
+            <div class="tag">ChatGPT</div>
+          </div>
+        </div>
+      </a>
+    </div>
+
     <!-- <div class="card-grid-space">
       <div class="num">03</div> -->
       <!-- <a class="card" href="https://codetheweb.blog/2017/10/14/links-images-about-file-paths/" style="--bg-img: url('https://images1-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&resize_w=1500&url=https://codetheweb.blog/assets/img/posts/links-images-about-file-paths/cover.jpg')"> -->
@@ -88,6 +98,9 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap');
+
+@import url('https://fonts.googleapis.com/earlyaccess/cwtexkai.css');
 @import url("https://fonts.googleapis.com/css?family=Heebo:400,700|Open+Sans:400,700");
 
 :root {
@@ -99,9 +112,23 @@ export default {
   box-sizing: border-box;
 }
 
+.bgimg{
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("/src/assets/physics-formulas-seamless-texture-school-blackboard-with-the-formulas-and-equations-hand-painted.jpg");
+  opacity: 0.045;
+  border-collapse: collapse;
+  background-size: cover;
+  background-position: right;
+  background-attachment: fixed;
+}
+
 .container {
   margin: 0;
-  min-height: 100vh;
+  min-height: 100%;
   font-family: "Open Sans";
   background: #fafafa;
   display: flex;
@@ -151,9 +178,9 @@ a {
   text-decoration: none;
 }
 
-.card:hover {
+/* .card:hover {
   transform: rotate(0);
-}
+} */
 
 .card h1 {
   margin: 0;
@@ -181,13 +208,13 @@ a {
   padding: 0 0.5em;
   margin-right: 0.1em;
   line-height: 1.5em;
-  transition: all, var(--transition-time);
+  /* transition: all, var(--transition-time); */
 }
 
-.card:hover .tags .tag {
+/* .card:hover .tags .tag {
   background: var(--color);
   color: white;
-}
+} */
 
 .card .date {
   position: absolute;
@@ -224,15 +251,17 @@ a {
   width: 200%;
   height: 200%;
 }
-
 .card:hover {
+    opacity: 0.5;
+}
+/* .card:hover {
   color: var(--color);
 }
 
 .card:hover:before,
 .card:hover:after {
   transform: scale(1);
-}
+} */
 
 .card-grid-space .num {
   font-size: 3em;
@@ -253,8 +282,35 @@ a {
   margin-bottom: 0.5em;
 }
 
-.info h1 {
+/* .info h1 {
   font-size: 1em;
+  font-weight: normal;
+} */
+
+.Title-wrapper{
+  font-family: 'Caveat', cursive;
+  font-size: 1.0em;
+  font-weight: normal;
+  display:flex;
+  flex-direction: row;
+}
+.veryCodeTitle{
+  font-family: 'Caveat', cursive;
+  font-size: 1.2em;
+  font-weight: normal;
+  
+}
+
+.authorTitle{
+  font-family: 'Caveat', cursive;
+  font-size: 1.0em;
+  font-weight: normal;
+}
+
+.PortfolioTitle{
+  margin-top: 0.5em;
+  font-family: 'cwTeXKai', serif;
+  font-size: 1.1em;
   font-weight: normal;
 }
 
@@ -279,15 +335,37 @@ a {
 }
 
 @media screen and (max-width: 500px) {
+
+  .container {
+  gap:10em;
+  } 
   .cards-wrapper {
-    padding: 4rem 2rem;
+    padding: 4rem 1rem;
   }
   .card {
     max-width: calc(100vw - 4rem);
   }
+
+  .Title-wrapper{
+
+  }
+  .card {
+    height:fit-content;
+  }
+  .card:hover {
+    opacity: 0.7;
+  }
+  .card h1 {
+  margin: 0;
+  font-size: 1.1em;
+  line-height: 1.2em;
+  }
+  
 }
 
 @media screen and (max-width: 450px) {
+
+  
   .info {
     display: block;
     text-align: center;
@@ -295,5 +373,6 @@ a {
   .info h1 {
     margin: 0;
   }
+  
 }
 </style>

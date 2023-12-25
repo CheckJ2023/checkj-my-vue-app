@@ -67,9 +67,16 @@
 <script>
 import axios from 'axios';
 // import nightbackground from '/src/components/CityNightViewBackground.vue';
+import { inject } from "vue";
+
 
 export default {
 
+  setup() {
+    const baseBackendUrl = inject('baseBackendUrl')
+    const baseFrontendUrl = inject('baseFrontendUrl')
+    return { baseBackendUrl,baseFrontendUrl }
+  },
   data() {
     return {
       count: 0,
@@ -92,7 +99,8 @@ export default {
 
       // 串接登入API
       // cannot use https ?!
-      axios.get('http://localhost:8080/login?username=' + this.username + '&password=' + this.pwd)
+      // axios.get('http://localhost:8080/login?username=' + this.username + '&password=' + this.pwd)
+      axios.get(this.baseBackendUrl+'/login?username=' + this.username + '&password=' + this.pwd)
         .then((response) => {
           console.log(response);
 
@@ -107,7 +115,8 @@ export default {
             } else {
               console.log('登入成功');
               this.message = '登入成功'
-              location.href = 'http://localhost:5173/products';   // 跳轉網頁
+              // location.href = 'http://localhost:5173/products';   // 跳轉網頁
+              location.href = this.baseFrontendUrl+'/products';
             }
           }
         });

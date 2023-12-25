@@ -33,14 +33,14 @@
                     </p>
                     <p class='field'>
                         <label for='pass'>商店名稱</label>
-                        <!-- <input type='text' id='user' name='user' title='Username' v-model="newProductStoreUrl" /> -->
+                        <!-- <input type='text' id='user' name='user' title='Username' v-model="newProductStoreName" /> -->
                         <input class="input" type='text' id='user' name='user' title='Username' 
-                        :value="newProductStoreUrl" @input="$emit('update:newProductStoreUrl', $event.target.value)"/>
+                        :value="newProductStoreName" @input="$emit('update:newProductStoreName', $event.target.value)"/>
                         <span id='valida' class='i i-close'></span>
                     </p>
                     <p class='field'>
                         <label for='pass'>商店URL</label>
-                        <!-- <input type='text' id='user' name='user' title='Username' v-model="newProductStoreName" /> -->
+                        <!-- <input type='text' id='user' name='user' title='Username' v-model="newProductStoreUrl" /> -->
                         <input class="input" type='text' id='user' name='user' title='Username' 
                         :value="newProductStoreUrl" @input="$emit('update:newProductStoreUrl', $event.target.value)"/>
                         <span id='valida' class='i i-close'></span>
